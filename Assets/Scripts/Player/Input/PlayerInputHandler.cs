@@ -25,16 +25,23 @@ public class PlayerInputHandler : MonoBehaviour
         CheckInputHoldTime();
     }
 
-    public void OnMoveInput(InputAction.CallbackContext context)
+    public void OnMoveInputZ(InputAction.CallbackContext context)
     {
         RawMovementInput = context.ReadValue<Vector3>();
-        NormInputX = (int)(RawMovementInput.x);
-        NormInputY = (int)RawMovementInput.y;
         NormInputZ = (int)RawMovementInput.z;
-
-        Debug.Log(NormInputX + " " + NormInputZ);
+        
+        Debug.Log("Z input:" + NormInputZ);
+        
     }
 
+    public void OnMoveInputX(InputAction.CallbackContext context)
+    {
+        RawMovementInput = context.ReadValue<Vector3>();
+        NormInputX = (int)RawMovementInput.x;
+
+        Debug.Log("X input:" + NormInputX);
+
+    }
     public void OnJumpInput(InputAction.CallbackContext context)
     {
         if (context.started)

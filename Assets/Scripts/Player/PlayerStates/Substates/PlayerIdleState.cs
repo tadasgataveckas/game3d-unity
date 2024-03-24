@@ -28,9 +28,8 @@ public class PlayerIdleState : PlayerGroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        Debug.Log(InputX + " " + InputZ);
         Player.EnableAttackCollider();
-        if(InputX !=0 || InputZ !=0)
+        if(InputX !=0 || InputZ !=0 || (InputX !=0 && InputZ!=0))
         {
             StateMachine.ChangeState(Player.MoveState);
         }

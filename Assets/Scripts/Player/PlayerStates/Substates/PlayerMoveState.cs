@@ -26,9 +26,8 @@ public class PlayerMoveState : PlayerGroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        //Player.SetVelocityX(PlayerData.MovementVelocity * InputX );
-        //Player.SetVelocityZ(PlayerData.MovementVelocity * InputZ );
         Player.SetVelocity(PlayerData.MovementVelocity * InputX, PlayerData.MovementVelocity * InputZ);
+        
         if(InputX == 0 && InputZ == 0)
         {
             StateMachine.ChangeState(Player.IdleState);

@@ -101,6 +101,13 @@ public class Player : MonoBehaviour
         CurrentVelocity = VelocityData;
     }
 
+    public void SetVelocityV(Vector3 movementInput)
+    {
+        VelocityData.Set(movementInput.x,movementInput.y,movementInput.z);
+        PlayerRigidbody.velocity = VelocityData;
+        CurrentVelocity = VelocityData;
+    }
+
     public void EnableAttackCollider()
     {
         AttackCollider.isTrigger = true;

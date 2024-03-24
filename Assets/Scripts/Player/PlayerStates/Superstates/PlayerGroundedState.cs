@@ -9,6 +9,7 @@ public class PlayerGroundedState : PlayerState
     private bool JumpInput;
     private bool IsGrounded;
     protected bool attackInput;
+    protected Vector3 movementVector;
     public PlayerGroundedState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
     {
     }
@@ -35,7 +36,7 @@ public class PlayerGroundedState : PlayerState
         InputX = Player.InputHandler.NormInputX;
         InputZ = Player.InputHandler.NormInputZ;
         attackInput = Player.InputHandler.AttackInput;
-        
+        movementVector.Set(InputX, 0, InputZ);
     }
 
     public override void PhysicsUpdate()
