@@ -1,0 +1,113 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player : MonoBehaviour
+{
+    #region State variables
+
+    public PlayerStateMachine StateMachine { get; private set; }
+    public PlayerIdleState IdleState { get; private set; }
+    public PlayerMoveState MoveState { get; private set; }
+
+    public PlayerAttackState AttackState { get; private set; }
+
+    #endregion
+
+    #region Check variables
+    [SerializeField]
+    private Transform groundCheck;
+    [SerializeField]
+    private Transform wallCheck;
+
+    #endregion
+
+    #region Player components
+    public Animator Animator { get; private set; }
+    public PlayerInputHandler InputHandler { get; private set; }
+    public Rigidbody PlayerRigidbody { get; private set; }
+
+    public BoxCollider AttackCollider { get; private set; }
+    public BoxCollider CollisionCollider { get; private set; }
+
+    [SerializeField]
+    private PlayerData PlayerData;
+
+    public Vector3 CurrentVelocity { get; private set; }
+    public int PlayerDirection { get; private set; }
+    private Vector3 VelocityData;
+    #endregion
+
+    #region Unity Callback methods
+
+    public void Awake()
+    {
+
+        StateMachine = new PlayerStateMachine();
+        IdleState = new PlayerIdleState(this,StateMachine,PlayerData,"idling");
+        MoveState = new PlayerMoveState(this, StateMachine, PlayerData, "moving");
+        AttackState = new PlayerAttackState(this, StateMachine, PlayerData, "attacking");
+        
+    }
+
+    private void Start()
+    {
+        Animator = GetComponent<Animator>();
+        InputHandler = GetComponent<PlayerInputHandler>();
+        PlayerRigidbody = GetComponent<Rigidbody>();
+        CollisionCollider = GetComponent<BoxCollider>();
+        AttackCollider = GetComponentInChildren<BoxCollider>();
+        Debug.Log(AttackCollider.bounds + "Child component");
+        Debug.Log(CollisionCollider.bounds + "Parent component");
+
+
+
+        PlayerDirection = 1;
+        StateMachine.Initialize(IdleState);
+    }
+
+    private void Update()
+    {
+        CurrentVelocity = PlayerRigidbody.velocity;
+        StateMachine.CurrentState.LogicUpdate();
+    }
+
+    private void FixedUpdate()
+    {
+        StateMachine.CurrentState.PhysicsUpdate();
+    }
+
+    #endregion
+
+    public void SetVelocityX(float velocity)
+    {
+        VelocityData.x = velocity;
+        PlayerRigidbody.velocity = VelocityData;
+        CurrentVelocity = VelocityData;
+
+    }
+
+    public void SetVelocityZ(float velocity)
+    {
+        VelocityData.z = velocity;
+        PlayerRigidbody.velocity = VelocityData;
+        CurrentVelocity = VelocityData;
+    }
+
+    public void SetVelocity(float velocityx,float velocityz)
+    {
+        VelocityData.Set(velocityx, 0f, velocityz);
+        PlayerRigidbody.velocity = VelocityData;
+        CurrentVelocity = VelocityData;
+    }
+
+    public void EnableAttackCollider()
+    {
+        AttackCollider.isTrigger = true;
+    }
+
+    public void DisableAttackCollider()
+    {
+        AttackCollider.isTrigger = false;
+    }
+}
