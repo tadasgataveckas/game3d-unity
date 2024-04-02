@@ -81,25 +81,12 @@ public class Player : MonoBehaviour
 
     #region Custom methods
 
-    public void SetVelocityX(float velocity)
-    {
-        VelocityData.x = velocity;
-        PlayerRigidbody.velocity = VelocityData;
-        CurrentVelocity = VelocityData;
 
-    }
-
-    public void SetVelocityZ(float velocity)
-    {
-        VelocityData.z = velocity;
-        PlayerRigidbody.velocity = VelocityData;
-        CurrentVelocity = VelocityData;
-    }
 
     //Z and X velocity
     public void SetVelocity(float velocityx,float velocityz)
     {
-        VelocityData.Set(velocityx, 0f, velocityz);
+        VelocityData.Set(velocityx*Time.deltaTime, 0f, velocityz*Time.deltaTime);
         PlayerRigidbody.velocity = VelocityData;
         CurrentVelocity = VelocityData;
     }
@@ -111,11 +98,11 @@ public class Player : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, TargetAngle, 0f);
     }
 
-    public void RotateCharacterFace(float MouseX, float MouseY)
+    public Vector3 ReturnMovementVector3(float InputX, float InputZ)
     {
-
-        float TargetAngle = Mathf.Atan2(MouseX, MouseY) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, TargetAngle, 0f);
+        Matrix4x4 rotationMatrix = Matrix4x4.Rotate(transform.rotation);
+        Vector3 inputVector = new Vector3(InputX, 0.0f, InputZ).normalized;
+        return rotationMatrix.MultiplyVector(inputVector);
     }
     #endregion
 
@@ -130,11 +117,31 @@ public class Player : MonoBehaviour
         AttackCollider.isTrigger = false;
     }
 
+    public void SetVelocityX(float velocity)
+    {
+        VelocityData.x = velocity;
+        PlayerRigidbody.velocity = VelocityData;
+        CurrentVelocity = VelocityData;
+
+    }
+
+    public void SetVelocityZ(float velocity)
+    {
+        VelocityData.z = velocity;
+        PlayerRigidbody.velocity = VelocityData;
+        CurrentVelocity = VelocityData;
+    }
+    public void RotateCharacterFace(float MouseX, float MouseY)
+    {
+
+        float TargetAngle = Mathf.Atan2(MouseX, MouseY) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, TargetAngle, 0f);
+    }
 
     public void SetVelocityV(Vector3 movementInput)
     {
-        VelocityData.Set(movementInput.x, movementInput.y, movementInput.z);
-        PlayerRigidbody.velocity = VelocityData;
+        VelocityData.Set(movementInput.x * PlayerData.MovementVelocity, movementInput.y, movementInput.z * PlayerData.MovementVelocity);
+        PlayerRigidbody.velocity = VelocityData ;
         CurrentVelocity = VelocityData;
     }
     #endregion

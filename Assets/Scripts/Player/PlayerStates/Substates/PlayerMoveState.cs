@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerGroundedState
 {
+    private Vector3 movementVector;
+    private Vector3 mousePosition;
     public PlayerMoveState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
     {
     }
@@ -28,11 +30,14 @@ public class PlayerMoveState : PlayerGroundedState
         base.LogicUpdate();
         //Vector3 MovementDirectionVector = new Vector3(InputX, 0, InputZ);
 
-        Vector3 mousePosition = Player.camera.ScreenToWorldPoint(
-            new Vector3(Player.InputHandler.mousePositionXY.x, 0.0f, Player.InputHandler.mousePositionXY.y));
-        Player.RotateCharacter(mousePosition);
-        Player.SetVelocity(PlayerData.MovementVelocity * InputX, PlayerData.MovementVelocity * InputZ);
-        Player.RotateCharacter(mousePosition);
+        //mousePosition = Player.camera.ScreenToWorldPoint(
+         //   new Vector3(Player.InputHandler.mousePositionXY.x, 0.0f, Player.InputHandler.mousePositionXY.y));
+        //Player.RotateCharacter(mousePosition);
+
+        movementVector = Player.ReturnMovementVector3(InputX,InputZ);
+
+        Player.SetVelocityV(movementVector);
+        
         
 
         if (InputX == 0 && InputZ == 0)
