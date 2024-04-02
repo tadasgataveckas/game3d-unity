@@ -10,7 +10,7 @@ public class PlayerState
     protected bool isAnimationFinished;
     protected float StartTime;
     public bool isExitingState;
-    public bool attackInput;
+    //public bool attackInput;
 
     private string AnimationBoolName;
 

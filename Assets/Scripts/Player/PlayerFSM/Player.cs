@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     public Vector3 CurrentVelocity { get; private set; }
     public int PlayerDirection { get; private set; }
     private Vector3 VelocityData;
+
+    public Camera camera { get; private set; }
     #endregion
 
     #region Unity Callback methods
@@ -57,9 +59,7 @@ public class Player : MonoBehaviour
         PlayerRigidbody = GetComponent<Rigidbody>();
         CollisionCollider = GetComponent<BoxCollider>();
         AttackCollider = GetComponentInChildren<BoxCollider>();
-        Debug.Log(AttackCollider.bounds + "Child component");
-        Debug.Log(CollisionCollider.bounds + "Parent component");
-
+        camera = GetComponentInChildren<Camera>();
 
 
         PlayerDirection = 1;
@@ -79,6 +79,8 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    #region Custom methods
+
     public void SetVelocityX(float velocity)
     {
         VelocityData.x = velocity;
@@ -94,6 +96,7 @@ public class Player : MonoBehaviour
         CurrentVelocity = VelocityData;
     }
 
+    //Z and X velocity
     public void SetVelocity(float velocityx,float velocityz)
     {
         VelocityData.Set(velocityx, 0f, velocityz);
@@ -101,13 +104,22 @@ public class Player : MonoBehaviour
         CurrentVelocity = VelocityData;
     }
 
-    public void SetVelocityV(Vector3 movementInput)
+
+    public void RotateCharacter(Vector3 CharacterDirection)
     {
-        VelocityData.Set(movementInput.x,movementInput.y,movementInput.z);
-        PlayerRigidbody.velocity = VelocityData;
-        CurrentVelocity = VelocityData;
+        float TargetAngle = Mathf.Atan2(CharacterDirection.x, CharacterDirection.z) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, TargetAngle, 0f);
     }
 
+    public void RotateCharacterFace(float MouseX, float MouseY)
+    {
+
+        float TargetAngle = Mathf.Atan2(MouseX, MouseY) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, TargetAngle, 0f);
+    }
+    #endregion
+
+    #region deprecated
     public void EnableAttackCollider()
     {
         AttackCollider.isTrigger = true;
@@ -117,4 +129,13 @@ public class Player : MonoBehaviour
     {
         AttackCollider.isTrigger = false;
     }
+
+
+    public void SetVelocityV(Vector3 movementInput)
+    {
+        VelocityData.Set(movementInput.x, movementInput.y, movementInput.z);
+        PlayerRigidbody.velocity = VelocityData;
+        CurrentVelocity = VelocityData;
+    }
+    #endregion
 }

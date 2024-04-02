@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundedState
 {
-    //protected bool attackInput;
+    
     public PlayerIdleState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
     {
     }
@@ -29,6 +29,9 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.LogicUpdate();
         Player.EnableAttackCollider();
+        Vector3 mousePosition = Player.camera.ScreenToWorldPoint(
+            new Vector3(Player.InputHandler.mousePositionXY.x, 0.0f, Player.InputHandler.mousePositionXY.y));
+        Player.RotateCharacter(mousePosition);
         if(InputX !=0 || InputZ !=0 || (InputX !=0 && InputZ!=0))
         {
             StateMachine.ChangeState(Player.MoveState);
