@@ -147,8 +147,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 139739564}
-  m_LocalRotation: {x: 0.09169478, y: -0.003226017, z: 0.00029706198, w: 0.9957819}
-  m_LocalPosition: {x: -2.3066616, y: 1.6694784, z: -3.337376}
+  m_LocalRotation: {x: 0.06445111, y: -0.0022577022, z: 0.00014581495, w: 0.9979183}
+  m_LocalPosition: {x: -2.3066616, y: 3.1317225, z: -4.337376}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -252,8 +252,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347769590}
-  m_LocalRotation: {x: 0.09169478, y: -0.003226017, z: 0.00029706198, w: 0.9957819}
-  m_LocalPosition: {x: 0, y: 1.8000002, z: -4}
+  m_LocalRotation: {x: 0.06445111, y: -0.0022577022, z: 0.00014581495, w: 0.9979183}
+  m_LocalPosition: {x: 0, y: 1.8000002, z: -6}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -698,6 +698,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1263798386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1263798387}
+  - component: {fileID: 1263798388}
+  m_Layer: 6
+  m_Name: groundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1263798387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263798386}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.958, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1948998749}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1263798388
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263798386}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1376660336
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,13 +1019,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 0.9, z: -2}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_FollowOffset: {x: 0, y: 0.9, z: -3}
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
-  m_YawDamping: 0.52
+  m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
 --- !u!114 &1728833237
@@ -1035,6 +1080,7 @@ GameObject:
   - component: {fileID: 1948998751}
   - component: {fileID: 1948998756}
   - component: {fileID: 1948998755}
+  - component: {fileID: 1948998760}
   - component: {fileID: 1948998754}
   - component: {fileID: 1948998753}
   - component: {fileID: 1948998757}
@@ -1055,12 +1101,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948998748}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.66, y: 3.136756, z: 4.96}
+  m_LocalPosition: {x: -5.66, y: 4.599, z: 4.96}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1684835389}
   - {fileID: 347769591}
+  - {fileID: 1263798387}
   m_Father: {fileID: 917982570}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1221,7 +1268,19 @@ MonoBehaviour:
     m_ActionId: dea590d9-cedd-4650-861a-24ef8140768e
     m_ActionName: Gameplay/MovementCrouch[/Keyboard/ctrl]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1948998754}
+        m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnJumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5d230bc4-b809-4912-b9d7-f8223bd8111e
     m_ActionName: Gameplay/MovementJump[/Keyboard/space]
   - m_PersistentCalls:
@@ -1265,8 +1324,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47179de22b021b74ea96670018390c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheck: {fileID: 0}
-  wallCheck: {fileID: 0}
+  groundCheck: {fileID: 1263798387}
+  ceilingCheck: {fileID: 0}
   PlayerData: {fileID: 11400000, guid: 90f33e85d06d777489ba6df776252c07, type: 2}
 --- !u!95 &1948998757
 Animator:
@@ -1315,3 +1374,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1948998760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948998748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d442c0dcd301236418ff2b00f3350086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 15
+  maxOffset: 50
+  maxRotationSpeed: 500

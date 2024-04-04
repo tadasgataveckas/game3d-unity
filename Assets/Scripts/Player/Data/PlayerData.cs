@@ -6,11 +6,17 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     [Header("Move state variables")]
-
+    public float Acceleration = 10.2f;
     public float MovementVelocity = 13.94f;
 
     [Header("Check variables")]
-    public float groundCheckRadius = 0.2f;
+    public Vector3 groundCheckRadius = new Vector3(1f, 0.2f, 1f);
     public LayerMask groundMask;
-    public float wallCheckDistance = 1f;
+    //[SerializeField] Transform groundCheckObject;
+    //public float wallCheckDistance = 1f;
+
+    [Header("Airstate variables")]
+    public float JumpVelocity = 20f;
+    public int JumpAmount = 1;
+    public float variableJumpHeightMultiplier = 2f;
 }

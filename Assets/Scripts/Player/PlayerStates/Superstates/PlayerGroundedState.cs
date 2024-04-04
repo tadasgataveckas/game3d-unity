@@ -7,7 +7,7 @@ public class PlayerGroundedState : PlayerState
     protected int InputX;
     protected int InputZ;
     private bool JumpInput;
-    private bool IsGrounded;
+    protected bool IsGrounded;
     protected bool attackInput;
     protected Vector3 movementVector;
     public PlayerGroundedState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
@@ -17,7 +17,8 @@ public class PlayerGroundedState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        //IsGrounded = Player.CheckGrounded();
+        IsGrounded = Player.CheckGrounded();
+        //Debug.Log("Grounded GS?: " + IsGrounded);
     }
 
     public override void Enter()
@@ -36,7 +37,16 @@ public class PlayerGroundedState : PlayerState
         InputX = Player.InputHandler.NormInputX;
         InputZ = Player.InputHandler.NormInputZ;
         attackInput = Player.InputHandler.AttackInput;
-        movementVector.Set(InputX, 0, InputZ);
+        JumpInput = Player.InputHandler.JumpInput;
+        movementVector.Set(InputX, Player.CurrentVelocity.y, InputZ);
+        if (JumpInput && Player.JumpState.CanJump())
+        {
+            StateMachine.ChangeState(Player.JumpState);
+        }
+        else if (!IsGrounded)
+        {
+            StateMachine.ChangeState(Player.AirState);
+        }
     }
 
     public override void PhysicsUpdate()

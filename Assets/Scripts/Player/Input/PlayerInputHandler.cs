@@ -21,7 +21,7 @@ public class PlayerInputHandler : MonoBehaviour
     public float mousePositionY { get; private set; }
 
     public Vector2 mousePositionXY { get; private set; }
-    public Vector3 mouseWorldPosition { get; private set; }
+    //public Vector3 mouseWorldPosition { get; private set; }
 
     [SerializeField]
     private float inputHoldTime = 0.1f;
@@ -60,6 +60,7 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.started)
         {
             JumpInput = true;
+            Debug.Log("Jump Input?: " + JumpInput);
             jumpInputStartTime = Time.time;
             JumpInputStop = false;
 
@@ -103,9 +104,11 @@ public class PlayerInputHandler : MonoBehaviour
     {
         mousePositionXY = context.ReadValue<Vector2>();
         
-        Debug.Log("XY axis mouse: " + mousePositionXY.x + ":" + mousePositionXY.y);
+        //Debug.Log("XY axis mouse: " + mousePositionXY.x + ":" + mousePositionXY.y);
     }
     #endregion
+
+
     //delete later
     public void OnAttackInput(InputAction.CallbackContext context)
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,12 @@ public class Player : MonoBehaviour
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
 
-    public PlayerAttackState AttackState { get; private set; }
+    
+
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerLandState LandState { get; private set; }
+
+    public PlayerAirState AirState {  get; private set; }
 
     #endregion
 
@@ -18,7 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Transform groundCheck;
     [SerializeField]
-    private Transform wallCheck;
+    private Transform ceilingCheck;
 
     #endregion
 
@@ -27,6 +33,7 @@ public class Player : MonoBehaviour
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody PlayerRigidbody { get; private set; }
 
+    public BoxCollider groundCollider { get; private set; }
     public BoxCollider AttackCollider { get; private set; }
     public BoxCollider CollisionCollider { get; private set; }
 
@@ -48,8 +55,10 @@ public class Player : MonoBehaviour
         StateMachine = new PlayerStateMachine();
         IdleState = new PlayerIdleState(this,StateMachine,PlayerData,"idling");
         MoveState = new PlayerMoveState(this, StateMachine, PlayerData, "moving");
-        AttackState = new PlayerAttackState(this, StateMachine, PlayerData, "attacking");
         
+        JumpState = new PlayerJumpState(this, StateMachine, PlayerData, "inAirJumped");
+        LandState = new PlayerLandState(this, StateMachine, PlayerData, "land");
+        AirState = new PlayerAirState(this, StateMachine, PlayerData, "inAir");
     }
 
     private void Start()
@@ -60,7 +69,7 @@ public class Player : MonoBehaviour
         CollisionCollider = GetComponent<BoxCollider>();
         AttackCollider = GetComponentInChildren<BoxCollider>();
         camera = GetComponentInChildren<Camera>();
-
+        groundCollider = groundCheck.GetComponent<BoxCollider>();
 
         PlayerDirection = 1;
         StateMachine.Initialize(IdleState);
@@ -83,14 +92,33 @@ public class Player : MonoBehaviour
 
 
 
-    //Z and X velocity
-    public void SetVelocity(float velocityx,float velocityz)
+
+
+    public void SetVelocityVZX(Vector3 movementInput)
     {
-        VelocityData.Set(velocityx*Time.deltaTime, 0f, velocityz*Time.deltaTime);
+        VelocityData.Set(movementInput.x * PlayerData.MovementVelocity, movementInput.y, movementInput.z * PlayerData.MovementVelocity);
         PlayerRigidbody.velocity = VelocityData;
         CurrentVelocity = VelocityData;
     }
 
+    public void SetVelocityVZXY(Vector3 movementInput)
+    {
+        VelocityData.Set(movementInput.x * PlayerData.MovementVelocity, movementInput.y * PlayerData.JumpVelocity, movementInput.z * PlayerData.MovementVelocity);
+        PlayerRigidbody.velocity = VelocityData;
+        CurrentVelocity = VelocityData;
+    }
+
+    public void SetVelocityAccelerate(Vector3 movementInput)
+    {
+        Vector3 targetVelocity = new Vector3(movementInput.x * PlayerData.MovementVelocity,
+                                     PlayerRigidbody.velocity.y,
+                                     movementInput.z * PlayerData.MovementVelocity);
+
+        // Apply acceleration
+        PlayerRigidbody.velocity = Vector3.Lerp(PlayerRigidbody.velocity, targetVelocity, PlayerData.Acceleration * Time.deltaTime);
+
+        CurrentVelocity = PlayerRigidbody.velocity;
+    }
 
     public void RotateCharacter(Vector3 CharacterDirection)
     {
@@ -104,6 +132,26 @@ public class Player : MonoBehaviour
         Vector3 inputVector = new Vector3(InputX, 0.0f, InputZ).normalized;
         return rotationMatrix.MultiplyVector(inputVector);
     }
+
+    public Vector3 ReturnMovementVector3Y(float InputX, bool JumpInput, float InputZ)
+    {
+        float InputY = JumpInput ? 1.0f : 0.0f;
+        Matrix4x4 rotationMatrix = Matrix4x4.Rotate(transform.rotation);
+        Vector3 inputVector = new Vector3(InputX, InputY, InputZ).normalized;
+        return rotationMatrix.MultiplyVector(inputVector);
+    }
+
+    public bool CheckGrounded()
+    {
+        Vector3 halfExtents = groundCollider.size / 2f;
+        Collider[] colliders =  Physics.OverlapBox(groundCollider.transform.position, halfExtents, groundCollider.transform.rotation, PlayerData.groundMask);
+        return colliders.Length > 0;
+    }
+
+    //public bool CheckCeiling()
+    //{
+    //    return Physics2D.OverlapCircle(ceilingCheck.position, PlayerData.groundCheckRadius, PlayerData.groundMask);
+    //}
     #endregion
 
     #region deprecated
@@ -137,12 +185,13 @@ public class Player : MonoBehaviour
         float TargetAngle = Mathf.Atan2(MouseX, MouseY) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, TargetAngle, 0f);
     }
-
-    public void SetVelocityV(Vector3 movementInput)
+    //Z and X velocity
+    public void SetVelocity(float velocityx, float velocityz)
     {
-        VelocityData.Set(movementInput.x * PlayerData.MovementVelocity, movementInput.y, movementInput.z * PlayerData.MovementVelocity);
-        PlayerRigidbody.velocity = VelocityData ;
+        VelocityData.Set(velocityx * Time.deltaTime, 0f, velocityz * Time.deltaTime);
+        PlayerRigidbody.velocity = VelocityData;
         CurrentVelocity = VelocityData;
     }
+
     #endregion
 }

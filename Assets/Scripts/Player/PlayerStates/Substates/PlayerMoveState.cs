@@ -28,22 +28,16 @@ public class PlayerMoveState : PlayerGroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        //Vector3 MovementDirectionVector = new Vector3(InputX, 0, InputZ);
-
-        //mousePosition = Player.camera.ScreenToWorldPoint(
-         //   new Vector3(Player.InputHandler.mousePositionXY.x, 0.0f, Player.InputHandler.mousePositionXY.y));
-        //Player.RotateCharacter(mousePosition);
 
         movementVector = Player.ReturnMovementVector3(InputX,InputZ);
 
-        Player.SetVelocityV(movementVector);
-        
-        
+        Player.SetVelocityAccelerate(movementVector);
 
         if (InputX == 0 && InputZ == 0)
         {
             StateMachine.ChangeState(Player.IdleState);
         }
+
     }
 
     public override void PhysicsUpdate()
