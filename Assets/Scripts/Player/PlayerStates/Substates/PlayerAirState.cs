@@ -56,10 +56,10 @@ public class PlayerAirState : PlayerInAirSuperState
             {
                 StateMachine.ChangeState(Player.LandState);
             }
-            else if (IsGrounded && (InputX != 0 || InputZ != 0))
-            {
-                StateMachine.ChangeState(Player.MoveState);
-            }
+            //else if (Player.IsGrounded && (InputX != 0 || InputZ != 0))
+            //{
+            //    StateMachine.ChangeState(Player.MoveState);
+            //}
             //else if (JumpInput && Player.JumpState.CanJump())
             //{
             //    StateMachine.ChangeState(Player.JumpState);

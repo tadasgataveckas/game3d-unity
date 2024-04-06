@@ -33,19 +33,23 @@ public class PlayerInAirSuperState : PlayerState
         base.LogicUpdate();
         //if (isAbilityDone)
         //{
-            //if (!IsGrounded)
-            //{
-            //    StateMachine.ChangeState(Player.AirState);
-            //}
-            //else
-            if (IsGrounded && (Player.InputHandler.NormInputX ==0 && Player.InputHandler.NormInputZ ==0))
-            {
-                StateMachine.ChangeState(Player.IdleState);
-            }
-            else if (IsGrounded && (Player.InputHandler.NormInputZ !=0|| Player.InputHandler.NormInputX != 0))
-            {
-                StateMachine.ChangeState(Player.MoveState);
-            }
+        //if (!IsGrounded)
+        //{
+        //    StateMachine.ChangeState(Player.AirState);
+        //}
+        //else
+        //if (Player.IsGrounded && (Player.InputHandler.NormInputX ==0 && Player.InputHandler.NormInputZ ==0))
+        //    {
+        //        StateMachine.ChangeState(Player.LandState);
+        //    }
+        //    else if (Player.IsGrounded && (Player.InputHandler.NormInputZ !=0|| Player.InputHandler.NormInputX != 0))
+        //    {
+        //        StateMachine.ChangeState(Player.MoveState);
+        //    }
+        if (IsGrounded)
+        {
+            StateMachine.ChangeState(Player.LandState);
+        }
 
         //}
     }

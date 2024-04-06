@@ -19,11 +19,11 @@ public class PlayerLandState : PlayerGroundedState
         base.LogicUpdate();
         if (!isExitingState)
         {
-            if (IsGrounded && (InputX != 0 || InputZ != 0))
+            if (Player.IsGrounded && (Player.InputHandler.NormInputX != 0 || Player.InputHandler.NormInputZ!= 0))
             {
                 StateMachine.ChangeState(Player.MoveState);
             }
-            else 
+            else if (Player.IsGrounded && Player.InputHandler.NormInputX == 0  && Player.InputHandler.NormInputZ == 0) 
             {
                 StateMachine.ChangeState(Player.IdleState);
             }

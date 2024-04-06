@@ -32,10 +32,12 @@ public class PlayerMoveState : PlayerGroundedState
         movementVector = Player.ReturnMovementVector3(InputX,InputZ);
 
         Player.SetVelocityAccelerate(movementVector);
-
-        if (InputX == 0 && InputZ == 0)
+        if (!isExitingState)
         {
-            StateMachine.ChangeState(Player.IdleState);
+            if (InputX == 0 && InputZ == 0)
+            {
+                StateMachine.ChangeState(Player.IdleState);
+            }
         }
 
     }

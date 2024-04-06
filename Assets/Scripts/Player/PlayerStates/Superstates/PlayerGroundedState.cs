@@ -39,12 +39,12 @@ public class PlayerGroundedState : PlayerState
         attackInput = Player.InputHandler.AttackInput;
         JumpInput = Player.InputHandler.JumpInput;
         movementVector.Set(InputX, Player.CurrentVelocity.y, InputZ);
-        if (JumpInput && IsGrounded)
+        if (JumpInput && Player.IsGrounded)
         {
             PerformJump(2f);
-            StateMachine.ChangeState(Player.AirState);
+           // StateMachine.ChangeState(Player.AirState);
         }
-        else if (!IsGrounded)
+        else if (!Player.IsGrounded)
         {
             StateMachine.ChangeState(Player.AirState);
         }
@@ -53,6 +53,7 @@ public class PlayerGroundedState : PlayerState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+
     }
 
     public void PerformJump(float jumpHeight)
