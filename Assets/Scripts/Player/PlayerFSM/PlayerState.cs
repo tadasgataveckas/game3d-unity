@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class PlayerState
 {
@@ -10,9 +11,8 @@ public class PlayerState
     protected bool isAnimationFinished;
     protected float StartTime;
     public bool isExitingState;
-    //public bool attackInput;
-
     private string AnimationBoolName;
+    public bool IsGrounded;
 
     public PlayerState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname)
     {
@@ -28,7 +28,7 @@ public class PlayerState
         DoChecks();
         Player.Animator.SetBool(AnimationBoolName, true);
         StartTime = Time.time;
-
+        //statename = StateMachine.CurrentState.statename;
         UnityEngine.Debug.Log(AnimationBoolName);
         isAnimationFinished = false;
         isExitingState = false;
@@ -42,7 +42,7 @@ public class PlayerState
 
     public virtual void LogicUpdate()
     {
-        //attackInput = Player.InputHandler.AttackInput;
+        IsGrounded = Player.IsGrounded;
     }
 
     public virtual void PhysicsUpdate()
@@ -62,6 +62,12 @@ public class PlayerState
 
     public virtual void AnimationFinishedTrigger()
     => isAnimationFinished = true;
+    
+    public virtual string GetAnimationName()
+    {
+        return AnimationBoolName;
+    }
+
 
     #endregion
 }

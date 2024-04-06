@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class PlayerAirState : PlayerInAirSuperState
 {
+    
     protected int InputX;
     protected int InputZ;
     private bool JumpInput;
-    protected bool IsGrounded;
+    //protected bool IsGrounded;
     private bool isJumping;
     private bool jumpInputStop;
     protected Vector3 movementVector;
@@ -33,22 +35,24 @@ public class PlayerAirState : PlayerInAirSuperState
     public override void Exit()
     {
         base.Exit();
+        Player.JumpState.ResetJumpCount();
 
     }
-
+    
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        
         InputX = Player.InputHandler.NormInputX;
         InputZ = Player.InputHandler.NormInputZ;
         JumpInput = Player.InputHandler.JumpInput;
         jumpInputStop = Player.InputHandler.JumpInputStop;
         //movementVector.Set(InputX, Player.PlayerRigidbody.velocity.y, InputZ);
-        
-        CheckJumpInput();
+        //Debug.Log("isgrounded? " + IsGrounded);
+        //CheckJumpInput();
         if (!isExitingState)
         {
-            if (IsGrounded && Player.CurrentVelocity.y < 0.0001f )
+            if (IsGrounded)
             {
                 StateMachine.ChangeState(Player.LandState);
             }
@@ -56,25 +60,25 @@ public class PlayerAirState : PlayerInAirSuperState
             {
                 StateMachine.ChangeState(Player.MoveState);
             }
-            else if (JumpInput && Player.JumpState.CanJump())
-            {
-                StateMachine.ChangeState(Player.JumpState);
-            }
+            //else if (JumpInput && Player.JumpState.CanJump())
+            //{
+            //    StateMachine.ChangeState(Player.JumpState);
+            //}
             else
             {
-                movementVector = Player.ReturnMovementVector3Y(InputX, JumpInput, InputZ);
+                movementVector = Player.ReturnMovementVector3(InputX, InputZ);
                 Player.SetVelocityAccelerate(movementVector);
             }
         }
     }
-
+   
     private void CheckJumpInput()
     {
         if (isJumping)
         {
             if (jumpInputStop)
             {
-                movementVector = Player.ReturnMovementVector3Y(InputX, JumpInput, InputZ);
+                movementVector = Player.ReturnMovementVector3(InputX, InputZ);
                 Player.SetVelocityVZXY(movementVector);
                 isJumping = false;
             }

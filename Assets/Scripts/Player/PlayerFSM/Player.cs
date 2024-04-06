@@ -43,8 +43,10 @@ public class Player : MonoBehaviour
     public Vector3 CurrentVelocity { get; private set; }
     public int PlayerDirection { get; private set; }
     private Vector3 VelocityData;
-
+    public bool IsGrounded { get; private set; }
     public Camera camera { get; private set; }
+
+
     #endregion
 
     #region Unity Callback methods
@@ -66,6 +68,7 @@ public class Player : MonoBehaviour
         Animator = GetComponent<Animator>();
         InputHandler = GetComponent<PlayerInputHandler>();
         PlayerRigidbody = GetComponent<Rigidbody>();
+        PlayerRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
         CollisionCollider = GetComponent<BoxCollider>();
         AttackCollider = GetComponentInChildren<BoxCollider>();
         camera = GetComponentInChildren<Camera>();
@@ -78,6 +81,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         CurrentVelocity = PlayerRigidbody.velocity;
+        IsGrounded = CheckGrounded();
         StateMachine.CurrentState.LogicUpdate();
     }
 
@@ -108,6 +112,8 @@ public class Player : MonoBehaviour
         CurrentVelocity = VelocityData;
     }
 
+
+
     public void SetVelocityAccelerate(Vector3 movementInput)
     {
         Vector3 targetVelocity = new Vector3(movementInput.x * PlayerData.MovementVelocity,
@@ -120,19 +126,21 @@ public class Player : MonoBehaviour
         CurrentVelocity = PlayerRigidbody.velocity;
     }
 
+    //good
     public void RotateCharacter(Vector3 CharacterDirection)
     {
         float TargetAngle = Mathf.Atan2(CharacterDirection.x, CharacterDirection.z) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, TargetAngle, 0f);
     }
 
+    //meh
     public Vector3 ReturnMovementVector3(float InputX, float InputZ)
     {
         Matrix4x4 rotationMatrix = Matrix4x4.Rotate(transform.rotation);
-        Vector3 inputVector = new Vector3(InputX, 0.0f, InputZ).normalized;
+        Vector3 inputVector = new Vector3(InputX, PlayerRigidbody.velocity.y, InputZ);
         return rotationMatrix.MultiplyVector(inputVector);
     }
-
+    //bad
     public Vector3 ReturnMovementVector3Y(float InputX, bool JumpInput, float InputZ)
     {
         float InputY = JumpInput ? 1.0f : 0.0f;
@@ -141,11 +149,16 @@ public class Player : MonoBehaviour
         return rotationMatrix.MultiplyVector(inputVector);
     }
 
+    //good
     public bool CheckGrounded()
     {
+
         Vector3 halfExtents = groundCollider.size / 2f;
-        Collider[] colliders =  Physics.OverlapBox(groundCollider.transform.position, halfExtents, groundCollider.transform.rotation, PlayerData.groundMask);
-        return colliders.Length > 0;
+
+        Collider[] colliders = Physics.OverlapBox(groundCollider.transform.position, halfExtents, groundCollider.transform.rotation, PlayerData.groundMask);
+         
+            return colliders.Length > 0;
+        
     }
 
     //public bool CheckCeiling()

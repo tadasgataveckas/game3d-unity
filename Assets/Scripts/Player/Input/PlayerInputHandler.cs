@@ -60,7 +60,7 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.started)
         {
             JumpInput = true;
-            Debug.Log("Jump Input?: " + JumpInput);
+            //Debug.Log("Jump Input?: " + JumpInput);
             jumpInputStartTime = Time.time;
             JumpInputStop = false;
 

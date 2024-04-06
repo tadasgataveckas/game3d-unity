@@ -6,7 +6,7 @@ public class PlayerInAirSuperState : PlayerState
 {
     protected bool isAbilityDone;
 
-    private bool isGrounded;
+    protected bool IsGrounded;
     public PlayerInAirSuperState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
     {
     }
@@ -14,7 +14,7 @@ public class PlayerInAirSuperState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        isGrounded = Player.CheckGrounded();
+        IsGrounded = Player.CheckGrounded();
     }
 
     public override void Enter()
@@ -31,22 +31,23 @@ public class PlayerInAirSuperState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (isAbilityDone)
-        {
-           if (!isGrounded)
-            {
-                StateMachine.ChangeState(Player.AirState);
-            }
-            else if (isGrounded && Player.CurrentVelocity.x < 0.001f && Player.CurrentVelocity.z < 0.001f)
+        //if (isAbilityDone)
+        //{
+            //if (!IsGrounded)
+            //{
+            //    StateMachine.ChangeState(Player.AirState);
+            //}
+            //else
+            if (IsGrounded && (Player.InputHandler.NormInputX ==0 && Player.InputHandler.NormInputZ ==0))
             {
                 StateMachine.ChangeState(Player.IdleState);
             }
-            else if (isGrounded && (Player.CurrentVelocity.x > 0f || Player.CurrentVelocity.z > 0f))
+            else if (IsGrounded && (Player.InputHandler.NormInputZ !=0|| Player.InputHandler.NormInputX != 0))
             {
                 StateMachine.ChangeState(Player.MoveState);
             }
 
-        }
+        //}
     }
 
     public override void PhysicsUpdate()

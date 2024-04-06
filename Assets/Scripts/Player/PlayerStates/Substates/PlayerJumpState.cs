@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerJumpState : PlayerAirState
+public class PlayerJumpState : PlayerInAirSuperState
 {
     private int jumpsLeft;
+    //private bool IsGrounded;
+    private Vector3 movementVector;
+    private int InputX;
+    private int InputZ;
     public PlayerJumpState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
     {
         jumpsLeft = PlayerData.JumpAmount;
@@ -19,7 +23,7 @@ public class PlayerJumpState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        IsGrounded = Player.CheckGrounded();
+        //IsGrounded = Player.CheckGrounded();
     }
 
     public override void Exit()
@@ -34,25 +38,15 @@ public class PlayerJumpState : PlayerAirState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        
+        InputX = Player.InputHandler.NormInputX; InputZ = Player.InputHandler.NormInputZ;
         movementVector = Player.ReturnMovementVector3Y(InputX, Player.InputHandler.JumpInput, InputZ);
         //Debug.Log(movementVector);
         Player.SetVelocityVZXY(movementVector);
         Player.InputHandler.SetJumpInputFalse();
         isAbilityDone = true;
         jumpsLeft--;
-        Player.AirState.SetIsJumping();
-        //if (!isExitingState)
-        //{
-        //    if (IsGrounded && (InputX == 0 && InputZ == 0))
-        //    {
-        //        StateMachine.ChangeState(Player.IdleState);
-        //    }
-        //    else if (IsGrounded && (InputX != 0 || InputZ != 0))
-        //    {
-        //        StateMachine.ChangeState(Player.MoveState);
-        //    }
-        //}
+        //Player.AirState.SetIsJumping();
+
 
     }
 
