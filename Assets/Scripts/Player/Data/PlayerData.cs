@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "newPlayerData", menuName = "Data/Player Data/Base Data")]
+[CreateAssetMenu(fileName = "newPlayerData",
+    menuName = "Data/Player Data/Base Data")]
 public class PlayerData : ScriptableObject
 {
     [Header("Move state variables")]
@@ -12,8 +13,6 @@ public class PlayerData : ScriptableObject
     [Header("Check variables")]
     public Vector3 groundCheckRadius = new Vector3(1f, 0.2f, 1f);
     public LayerMask groundMask;
-    //[SerializeField] Transform groundCheckObject;
-    //public float wallCheckDistance = 1f;
 
     [Header("Airstate variables")]
     public float JumpVelocity = 20f;

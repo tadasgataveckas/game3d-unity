@@ -10,7 +10,8 @@ public class PlayerGroundedState : PlayerState
     protected bool IsGrounded;
     protected bool attackInput;
     protected Vector3 movementVector;
-    public PlayerGroundedState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
+    public PlayerGroundedState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) 
+        : base(player, statemachine, playerdata, animationboolname)
     {
     }
 
@@ -58,10 +59,7 @@ public class PlayerGroundedState : PlayerState
 
     public void PerformJump(float jumpHeight)
     {
-        // Calculate the initial velocity needed for a given jump height
         float jumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * jumpHeight);
-
-        // Set the Rigidbody's velocity for the jump
         Player.PlayerRigidbody.velocity = new Vector3(Player.PlayerRigidbody.velocity.x, jumpVelocity, Player.PlayerRigidbody.velocity.z);
     }
 }

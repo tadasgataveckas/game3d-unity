@@ -7,7 +7,8 @@ public class PlayerInAirSuperState : PlayerState
     protected bool isAbilityDone;
 
     protected bool IsGrounded;
-    public PlayerInAirSuperState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
+    public PlayerInAirSuperState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) 
+        : base(player, statemachine, playerdata, animationboolname)
     {
     }
 
@@ -31,27 +32,10 @@ public class PlayerInAirSuperState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        //if (isAbilityDone)
-        //{
-        //if (!IsGrounded)
-        //{
-        //    StateMachine.ChangeState(Player.AirState);
-        //}
-        //else
-        //if (Player.IsGrounded && (Player.InputHandler.NormInputX ==0 && Player.InputHandler.NormInputZ ==0))
-        //    {
-        //        StateMachine.ChangeState(Player.LandState);
-        //    }
-        //    else if (Player.IsGrounded && (Player.InputHandler.NormInputZ !=0|| Player.InputHandler.NormInputX != 0))
-        //    {
-        //        StateMachine.ChangeState(Player.MoveState);
-        //    }
         if (IsGrounded)
         {
             StateMachine.ChangeState(Player.LandState);
         }
-
-        //}
     }
 
     public override void PhysicsUpdate()

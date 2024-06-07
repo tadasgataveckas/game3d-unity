@@ -100,14 +100,16 @@ public class Player : MonoBehaviour
 
     public void SetVelocityVZX(Vector3 movementInput)
     {
-        VelocityData.Set(movementInput.x * PlayerData.MovementVelocity, movementInput.y, movementInput.z * PlayerData.MovementVelocity);
+        VelocityData.Set(movementInput.x * PlayerData.MovementVelocity,
+            movementInput.y, movementInput.z * PlayerData.MovementVelocity);
         PlayerRigidbody.velocity = VelocityData;
         CurrentVelocity = VelocityData;
     }
 
     public void SetVelocityVZXY(Vector3 movementInput)
     {
-        VelocityData.Set(movementInput.x * PlayerData.MovementVelocity, movementInput.y * PlayerData.JumpVelocity, movementInput.z * PlayerData.MovementVelocity);
+        VelocityData.Set(movementInput.x * PlayerData.MovementVelocity, movementInput.y *
+            PlayerData.JumpVelocity, movementInput.z * PlayerData.MovementVelocity);
         PlayerRigidbody.velocity = VelocityData;
         CurrentVelocity = VelocityData;
     }
@@ -120,8 +122,10 @@ public class Player : MonoBehaviour
                                      PlayerRigidbody.velocity.y,
                                      movementInput.z * PlayerData.MovementVelocity);
 
-        // Apply acceleration
-        PlayerRigidbody.velocity = Vector3.Lerp(PlayerRigidbody.velocity, targetVelocity, PlayerData.Acceleration * Time.deltaTime);
+        
+        PlayerRigidbody.velocity = Vector3.Lerp(PlayerRigidbody.velocity,
+                                                targetVelocity,
+                                                PlayerData.Acceleration * Time.deltaTime);
 
         CurrentVelocity = PlayerRigidbody.velocity;
     }
@@ -133,19 +137,19 @@ public class Player : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, TargetAngle, 0f);
     }
 
-    //meh
+    
     public Vector3 ReturnMovementVector3(float InputX, float InputZ)
     {
         Matrix4x4 rotationMatrix = Matrix4x4.Rotate(transform.rotation);
-        Vector3 inputVector = new Vector3(InputX, PlayerRigidbody.velocity.y, InputZ);
+        Vector3 inputVector = new Vector3(InputX, 0.0f, InputZ).normalized;
         return rotationMatrix.MultiplyVector(inputVector);
     }
-    //bad
+  
     public Vector3 ReturnMovementVector3Y(float InputX, bool JumpInput, float InputZ)
     {
         float InputY = JumpInput ? 1.0f : 0.0f;
         Matrix4x4 rotationMatrix = Matrix4x4.Rotate(transform.rotation);
-        Vector3 inputVector = new Vector3(InputX, InputY, InputZ).normalized;
+        Vector3 inputVector = new Vector3(InputX, PlayerRigidbody.velocity.y, InputZ).normalized;
         return rotationMatrix.MultiplyVector(inputVector);
     }
 
@@ -155,16 +159,14 @@ public class Player : MonoBehaviour
 
         Vector3 halfExtents = groundCollider.size / 2f;
 
-        Collider[] colliders = Physics.OverlapBox(groundCollider.transform.position, halfExtents, groundCollider.transform.rotation, PlayerData.groundMask);
+        Collider[] colliders = Physics.OverlapBox(groundCollider.transform.position,
+            halfExtents, groundCollider.transform.rotation, PlayerData.groundMask);
          
             return colliders.Length > 0;
         
     }
 
-    //public bool CheckCeiling()
-    //{
-    //    return Physics2D.OverlapCircle(ceilingCheck.position, PlayerData.groundCheckRadius, PlayerData.groundMask);
-    //}
+
     #endregion
 
     #region deprecated

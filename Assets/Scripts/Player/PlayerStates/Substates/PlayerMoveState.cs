@@ -6,7 +6,8 @@ public class PlayerMoveState : PlayerGroundedState
 {
     private Vector3 movementVector;
     private Vector3 mousePosition;
-    public PlayerMoveState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
+    public PlayerMoveState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname)
+        : base(player, statemachine, playerdata, animationboolname)
     {
     }
 

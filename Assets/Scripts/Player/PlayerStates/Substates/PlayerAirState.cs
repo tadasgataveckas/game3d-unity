@@ -9,11 +9,11 @@ public class PlayerAirState : PlayerInAirSuperState
     protected int InputX;
     protected int InputZ;
     private bool JumpInput;
-    //protected bool IsGrounded;
     private bool isJumping;
     private bool jumpInputStop;
     protected Vector3 movementVector;
-    public PlayerAirState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
+    public PlayerAirState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname)
+                            : base(player, statemachine, playerdata, animationboolname)
     {
     }
     public override void PhysicsUpdate()
@@ -47,27 +47,17 @@ public class PlayerAirState : PlayerInAirSuperState
         InputZ = Player.InputHandler.NormInputZ;
         JumpInput = Player.InputHandler.JumpInput;
         jumpInputStop = Player.InputHandler.JumpInputStop;
-        //movementVector.Set(InputX, Player.PlayerRigidbody.velocity.y, InputZ);
-        //Debug.Log("isgrounded? " + IsGrounded);
-        //CheckJumpInput();
+
         if (!isExitingState)
         {
             if (IsGrounded)
             {
                 StateMachine.ChangeState(Player.LandState);
             }
-            //else if (Player.IsGrounded && (InputX != 0 || InputZ != 0))
-            //{
-            //    StateMachine.ChangeState(Player.MoveState);
-            //}
-            //else if (JumpInput && Player.JumpState.CanJump())
-            //{
-            //    StateMachine.ChangeState(Player.JumpState);
-            //}
             else
             {
                 movementVector = Player.ReturnMovementVector3(InputX, InputZ);
-                Player.SetVelocityAccelerate(movementVector);
+                Player.PlayerRigidbody.AddForce(movementVector * 1.44f);
             }
         }
     }
@@ -90,6 +80,5 @@ public class PlayerAirState : PlayerInAirSuperState
     }
 
     public void SetIsJumping() => isJumping = true;
-
 
 }

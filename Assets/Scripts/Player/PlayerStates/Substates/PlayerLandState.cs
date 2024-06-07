@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerLandState : PlayerGroundedState
 {
-    public PlayerLandState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) : base(player, statemachine, playerdata, animationboolname)
+    public PlayerLandState(Player player, PlayerStateMachine statemachine, PlayerData playerdata, string animationboolname) 
+        : base(player, statemachine, playerdata, animationboolname)
     {
     }
 

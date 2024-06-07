@@ -1,0 +1,46 @@
+{
+    "name": "Weapon",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "c79c807f-4ea8-4585-a7e9-cb5f34755a7b",
+            "actions": [
+                {
+                    "name": "Attack",
+                    "type": "Value",
+                    "id": "f0870052-5a6a-465f-af4f-105c5e33fc15",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "30ade4ba-0726-434e-b82b-22dfcbd62063",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Mouse",
+            "bindingGroup": "Mouse",
+            "devices": [
+                {
+                    "devicePath": "<VirtualMouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

@@ -9,48 +9,60 @@ public class DebugData : MonoBehaviour
     [SerializeField] TextMeshProUGUI GroundedText;
     [SerializeField] TextMeshProUGUI VelocityText;
     [SerializeField] TextMeshProUGUI StateText;
+    [SerializeField] TextMeshProUGUI WepStateText;
+    [SerializeField] TextMeshProUGUI timer;
+    [SerializeField] TextMeshProUGUI gameovertext;
     GameObject playerObject;
     Player playerScript;
     PlayerStateMachine statemachine = new PlayerStateMachine();
+    WeaponStateMachine wepStateMachine = new WeaponStateMachine();
+    GameObject weaponObject;
+    WeaponF weaponScript;
     string state;
+    string wepState;
    
 
     bool grounded;
     Vector3 currentVelocity;
     private void Start()
     {
-        
+        timer.text = "0,00";
         playerObject =  GameObject.Find("PlayerMesh");
+        weaponObject = GameObject.Find("HalberdSpear");
         playerScript =  playerObject.GetComponent<Player>();
+        weaponScript = weaponObject.GetComponent<WeaponF>();
         if (playerScript != null)
         {
             statemachine = playerScript.StateMachine;
-            Debug.Log("Statename:" + statemachine);
-
+            wepStateMachine = weaponScript.StateMachine;
             grounded = playerScript.IsGrounded;
-            //statemachine = playerScript.StateMachine;
-            Debug.Log("gr " + grounded);
+            Debug.Log("Statemachinewep " + wepStateMachine);
             currentVelocity = playerScript.CurrentVelocity;
-            Debug.Log("Velocity: " + currentVelocity);
         }
         
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (!gameovertext.enabled)
+        {
+            double time = Time.deltaTime;
+            double timertime = double.Parse(timer.text);
+            
+            timer.text = (time + timertime).ToString();
 
+		}
         state = statemachine.CurrentState.GetAnimationName();
-        //Debug.Log("Statename:" + state);
+        wepState = wepStateMachine.CurrentState.GetAnimationName();
         grounded = playerScript.IsGrounded;
         GroundedText.text = "Grounded:" + grounded;
         StateText.text = "CurrentState: " + state;
+        WepStateText.text = "CurrentWeaponState: " + wepState;
         if (currentVelocity != null)
         {
             currentVelocity = playerScript.CurrentVelocity;
             VelocityText.text = "CurrentVelocity: " + currentVelocity;
         }
-
         
     }
 }
